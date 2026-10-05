@@ -1,0 +1,191 @@
+/* ─── Skills ─────────────────────────────────────────────────────────────────── */
+
+.skills {
+  background: var(--bg-base);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ─── Tabs ── */
+.skills__tabs {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--space-10);
+}
+
+.skills__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+.skills__tab:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+.skills__tab--active {
+  background: var(--brand-primary-muted);
+  border-color: var(--border-brand);
+  color: var(--brand-primary);
+  box-shadow: 0 0 16px rgba(0, 212, 170, 0.15);
+}
+
+/* ─── Panel ── */
+.skills__panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+  min-height: 280px;
+}
+
+/* ─── Skill Card ── */
+.skill-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
+  overflow: hidden;
+  transition:
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  cursor: default;
+}
+
+.skill-card__bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at right top, var(--skill-color), transparent 70%);
+  opacity: 0.05;
+  transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+
+.skill-card:hover {
+  border-color: var(--border-default);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.2);
+}
+
+.skill-card:hover .skill-card__bg {
+  opacity: 0.15;
+}
+
+.skill-card__content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+
+.skill-card__icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.skill-card:hover .skill-card__icon-wrapper {
+  border-color: var(--skill-color);
+  background: color-mix(in srgb, var(--skill-color) 10%, transparent);
+}
+
+.skill-card__icon {
+  font-size: 1.5rem;
+}
+
+.skill-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.skill-card__name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+}
+
+/* ─── Tech Ticker ── */
+.skills__ticker-wrapper {
+  margin-top: var(--space-20);
+  overflow: hidden;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  padding-block: var(--space-4);
+  /* Fade edges */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+.skills__ticker {
+  overflow: hidden;
+}
+
+.skills__ticker-item {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: var(--space-6);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.skills__ticker-item::before {
+  content: "·";
+  margin-right: var(--space-6);
+  color: var(--brand-primary);
+  font-size: 1.2em;
+}
+
+/* ─── Responsive ── */
+@media (max-width: 600px) {
+  .skills__panel {
+    grid-template-columns: 1fr;
+  }
+  .skills__tabs {
+    gap: var(--space-1);
+  }
+  .skills__tab {
+    font-size: var(--text-xs);
+    padding: 0.4rem 0.8rem;
+  }
+}

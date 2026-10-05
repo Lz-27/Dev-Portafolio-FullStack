@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <title>Portafolio — Full Stack Developer & Data Science Specialist</title>
+    <meta name="description" content="Portafolio profesional de Ingeniero de Sistemas especializado en Full Stack Development, Data Science y Machine Learning. Proyectos React, FastAPI, Python, TensorFlow." />
+    <meta name="keywords" content="full stack developer, data science, machine learning, ingeniero de sistemas, python, react, fastapi, portafolio" />
+    <meta name="author" content="Developer Portfolio" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Portafolio — Full Stack Developer & Data Science" />
+    <meta property="og:description" content="Ingeniero de Sistemas especializado en Full Stack, Data Science y ML. Ver proyectos y experiencia." />
+    <meta property="og:locale" content="es_PE" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts preconnect (also imported in tokens.css as fallback) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Prevent flash of wrong theme -->
+    <script>
+      try {
+        const t = localStorage.getItem('pf-theme');
+        if (t && ['dark','light','navy'].includes(t)) {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

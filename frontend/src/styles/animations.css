@@ -1,0 +1,213 @@
+/**
+ * ============================================
+ * ANIMATIONS — SISTEMA DE MOVIMIENTO
+ * ============================================
+ * Patrón: TECHNICAL_REFERENCE.md §4
+ * Todos los keyframes y clases de animación reutilizables.
+ * Respeta prefers-reduced-motion.
+ */
+
+/* ─── KEYFRAMES ─────────────────────────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Ticker infinito — patrón §4.1 marquee */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Pulso concéntrico — node pulse */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Glow latido */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(0, 212, 170, 0.3); }
+  50%       { box-shadow: 0 0 28px rgba(0, 212, 170, 0.7); }
+}
+
+/* Barrido diagonal — btn-shine */
+@keyframes shine {
+  from { transform: translateX(-130%) skewX(-20deg); }
+  to   { transform: translateX(130%) skewX(-20deg); }
+}
+
+/* Cursor blink del typing effect */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Float suave */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* Spin para loaders */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Progress bar fill */
+@keyframes progress-fill {
+  from { width: 0%; }
+  to   { width: var(--progress-target, 80%); }
+}
+
+/* Grad-shift para el texto gradiente animado */
+@keyframes grad-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Timeline line draw */
+@keyframes line-draw {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* ─── CLASES DE UTILIDAD ─────────────────────────────────────────────────────── */
+
+/* Scroll Reveal — patrón §4.1 */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delay escalonado para listas */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
+
+/* Slide reveal con máscara */
+.reveal-mask {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-mask.is-visible {
+  clip-path: inset(0 0 0% 0);
+}
+
+/* Marquee ticker */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* Btn-shine — barrido hover §4.1 */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 70%
+  );
+  transform: translateX(-130%) skewX(-20deg);
+  transition: none;
+  pointer-events: none;
+}
+.btn-shine:hover::after {
+  animation: shine 0.5s ease forwards;
+}
+
+/* Node pulse ring */
+.node-pulse {
+  position: relative;
+}
+.node-pulse::before,
+.node-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--brand-primary);
+  animation: pulse-ring 2s ease-out infinite;
+  pointer-events: none;
+}
+.node-pulse::after {
+  animation-delay: 0.8s;
+}
+
+/* Texto gradiente animado */
+.gradient-text {
+  background: var(--gradient-brand);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: grad-shift 4s ease infinite;
+}
+
+/* Float animation */
+.float-anim {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ─── ACCESIBILIDAD: prefers-reduced-motion ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-mask,
+  .marquee-track,
+  .float-anim,
+  .node-pulse::before,
+  .node-pulse::after,
+  .gradient-text {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
