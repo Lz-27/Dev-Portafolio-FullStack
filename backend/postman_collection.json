@@ -1,0 +1,282 @@
+{
+  "info": {
+    "name": "Portafolio V2 - FastAPI API",
+    "_postman_id": "portafolio-v2-api-collection",
+    "description": "Colección completa de endpoints para el Backend de Portafolio V2 (FastAPI)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login JSON (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.access_token) {",
+                  "    pm.collectionVariables.set('accessToken', jsonData.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Admin2024!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login/json",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login", "json"]
+            }
+          }
+        },
+        {
+          "name": "Get Profile (/me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Enviar Mensaje Contacto (Público)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Perez\",\n  \"email\": \"juan.perez@example.com\",\n  \"subject\": \"Propuesta de colaboración\",\n  \"message\": \"Hola, me ha encantado tu portafolio y me gustaría discutir una oportunidad laboral.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messages/",
+              "host": ["{{baseUrl}}"],
+              "path": ["messages", ""]
+            }
+          }
+        },
+        {
+          "name": "Listar Mensajes (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages/?skip=0&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["messages", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Marcar Mensaje Leído (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages/1/read",
+              "host": ["{{baseUrl}}"],
+              "path": ["messages", "1", "read"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Listar Proyectos (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/projects/?skip=0&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["projects", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Proyecto por ID (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/projects/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["projects", "1"]
+            }
+          }
+        },
+        {
+          "name": "Crear Proyecto (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"nuevo-proyecto-ai\",\n  \"titulo\": \"Asistente Inteligente RAG\",\n  \"descripcion\": \"Sistema corporativo de consulta documental con IA\",\n  \"detalles\": \"Implementación completa con LangChain, FastAPI y ChromaDB\",\n  \"categoria\": \"data\",\n  \"categoria_label\": \"Data / IA\",\n  \"tecnologias\": [\"Python\", \"FastAPI\", \"LangChain\", \"ChromaDB\"],\n  \"github\": \"https://github.com/usuario/rag\",\n  \"demo\": \"https://demo-rag.com\",\n  \"destacado\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/projects/",
+              "host": ["{{baseUrl}}"],
+              "path": ["projects", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Certifications",
+      "item": [
+        {
+          "name": "Listar Certificaciones (Público)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/certifications/?skip=0&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["certifications", ""],
+              "query": [
+                {
+                  "key": "skip",
+                  "value": "0"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Certificación (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"AWS Certified Solutions Architect\",\n  \"emisor\": \"Amazon Web Services\",\n  \"fecha\": \"2024\",\n  \"categoria\": \"cloud\",\n  \"categoria_label\": \"Cloud\",\n  \"habilidades\": [\"AWS\", \"Cloud Architecture\", \"Security\", \"DevOps\"],\n  \"descripcion\": \"Diseño y despliegue de sistemas dinámicamente escalables y de alta disponibilidad en AWS.\",\n  \"credencial\": \"https://aws.amazon.com/verify\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/certifications/",
+              "host": ["{{baseUrl}}"],
+              "path": ["certifications", ""]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
